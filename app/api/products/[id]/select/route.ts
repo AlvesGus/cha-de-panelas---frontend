@@ -1,18 +1,25 @@
+import { NextRequest } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { prisma } from '../../../../lib/prisma'
 
 export async function PATCH(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  // Criando cliente SSR, forçando cookies como 'any' para TypeScript
+  const { id } = await params
+
+  const cookieStore = await cookies()
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
-      // @ts-expect-error: Next.js cookies type não bate com Supabase
-      cookies: cookies
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value
+        }
+      }
     }
   )
 
@@ -27,9 +34,14 @@ export async function PATCH(
   }
 
   const updated = await prisma.product.update({
-    where: { id: params.id },
-    data: { is_active: false, selected_by: user.id }
+    where: { id },
+    data: {
+      is_active: false,
+      selected_by: user.id
+    }
   })
 
-  return new Response(JSON.stringify({ success: true, updated }))
+  return new Response(JSON.stringify({ success: true, updated }), {
+    status: 200
+  })
 }
