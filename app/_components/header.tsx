@@ -97,7 +97,7 @@ export default function Header() {
         <div className="flex items-center justify-center gap-2">
           <Heart className="w-7 h-7 fill-red-500 text-red-500" />
           <span className="text-lg">
-            {user?.name || user?.user_metadata?.full_name}
+            {user?.user_metadata || user?.user_metadata?.full_name}
           </span>
         </div>
       </div>

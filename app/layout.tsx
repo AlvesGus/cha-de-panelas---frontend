@@ -4,6 +4,7 @@ import './globals.css'
 import Header from './_components/header'
 import { AuthProvider } from './context/auth-context'
 import { ProductsProvider } from './context/products'
+import Texture from './assets/background-texture.jpeg'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -35,7 +36,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${greatVibes.variable} antialiased select-none bg-zinc-200`}
+        style={{
+         backgroundImage: `url(${Texture.src})`,
+    backgroundRepeat: 'repeat',
+    backgroundSize: '280px'
+        }}
+        className={`${geistSans.variable} ${geistMono.variable} ${greatVibes.variable} antialiased select-none bg-zinc-200 `}
       >
         <AuthProvider>
           <ProductsProvider>
