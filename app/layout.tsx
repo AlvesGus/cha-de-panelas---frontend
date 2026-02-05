@@ -1,24 +1,22 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono, Great_Vibes } from 'next/font/google'
+import {
+  Parisienne,
+  Playfair_Display
+} from 'next/font/google'
 import './globals.css'
 import Header from './_components/header'
 import { AuthProvider } from './context/auth-context'
 import { ProductsProvider } from './context/products'
 import Texture from './assets/background-texture.jpeg'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin']
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin']
-})
-
-const greatVibes = Great_Vibes({
+const parisienne = Parisienne({
   weight: '400',
-  variable: '--font-great'
+  variable: '--font-parisienne'
+})
+
+const playfair = Playfair_Display({
+  weight: ['400', '500'],
+  variable: '--font-playfair'
 })
 
 export const metadata: Metadata = {
@@ -37,11 +35,11 @@ export default function RootLayout({
     <html lang="en">
       <body
         style={{
-         backgroundImage: `url(${Texture.src})`,
-    backgroundRepeat: 'repeat',
-    backgroundSize: '280px'
+          backgroundImage: `url(${Texture.src})`,
+          backgroundRepeat: 'repeat',
+          backgroundSize: '280px'
         }}
-        className={`${geistSans.variable} ${geistMono.variable} ${greatVibes.variable} antialiased select-none bg-zinc-200 `}
+        className={`${parisienne.variable} ${playfair.variable} antialiased select-none bg-zinc-200 `}
       >
         <AuthProvider>
           <ProductsProvider>

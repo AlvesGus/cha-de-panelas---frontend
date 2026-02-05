@@ -10,6 +10,7 @@ import { useProducts } from '../context/products'
 import { useEffect, useState } from 'react'
 import { redirect, useRouter, useSearchParams } from 'next/navigation'
 import { api } from '../api/axios/api'
+import Background from '../assets/Grazi e Gustavo.png'
 
 export default function ListPresent() {
   const { products, selectProduct, setProducts } = useProducts()
@@ -97,9 +98,12 @@ export default function ListPresent() {
         {/* Introdução */}
         <div className="flex flex-col items-center justify-center w-full text-center mt-5">
           <span className="font-bold font-lg ">Bem vindos ao nosso sonho!</span>
-          <h1 className="font-medium text-7xl text-serenity-dark font-great mt-2 mb-5">
-            Gu & Grazi
-          </h1>
+          <Image
+            src={Background}
+            width={300}
+            height={300}
+            alt="background monograma"
+          />
           <span className="text-md lg:text-xl tracking-wide text-zinc-500">
             Sua presença é o nosso maior presente, mas se desejar nos presentar,
             aqui estão algumas sugestões
