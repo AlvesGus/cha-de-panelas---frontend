@@ -1,14 +1,12 @@
 import { NextRequest } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
-import { prisma } from '../../../../lib/prisma'
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  const { id } = await params
-
+  const { id } = params
   const cookieStore = await cookies()
 
   const supabase = createServerClient(
@@ -33,15 +31,23 @@ export async function PATCH(
     })
   }
 
-  const updated = await prisma.product.update({
-    where: { id },
-    data: {
+  const { data, error } = await supabase
+    .from('product')
+    .update({
       is_active: false,
       selected_by: user.id
-    }
-  })
+    })
+    .eq('id', id)
+    .select()
+    .single()
 
-  return new Response(JSON.stringify({ success: true, updated }), {
+  if (error) {
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 400
+    })
+  }
+
+  return new Response(JSON.stringify({ success: true, updated: data }), {
     status: 200
   })
 }
