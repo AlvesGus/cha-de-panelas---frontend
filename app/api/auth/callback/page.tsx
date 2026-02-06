@@ -4,5 +4,5 @@ import { redirect } from 'next/navigation'
 export default async function AuthCallback() {
   const supabase = await createSupabaseServerClient()
   await supabase.auth.getUser()
-  redirect('/list-present')
+  redirect('https://cha-de-panelas-frontend.vercel.app/list-present')
 }
