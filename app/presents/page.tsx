@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { ShoppingBag, Trash } from 'lucide-react'
 import Image from 'next/image'
+import Loader from '@/components/ui/loader'
 
 import { useAuth } from '../context/auth-context'
 import { api } from '../api/axios/api'
@@ -41,7 +42,11 @@ export default function MyPresent() {
   }, [session])
 
   if (loading) {
-    return <p className="px-10 mt-10">Carregando...</p>
+    return (
+      <div className="w-full flex items-center justify-center py-10">
+        <Loader />
+      </div>
+    )
   }
 
   return (

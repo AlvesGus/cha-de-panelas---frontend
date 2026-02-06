@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react'
 import { redirect, useRouter, useSearchParams } from 'next/navigation'
 import { api } from '../api/axios/api'
 import Background from '../assets/Grazi e Gustavo.png'
+import Loader from '@/components/ui/loader'
 
 export default function ListPresent() {
   const { products, selectProduct, setProducts } = useProducts()
@@ -163,11 +164,6 @@ export default function ListPresent() {
                 Escolha seu presente
               </span>
             </div>
-            <div className="bg-serenity-base px-3 py-1.5 rounded-full">
-              <span className="text-serenity-dark font-bold">
-                {products.length} itens
-              </span>
-            </div>
           </div>
           <div className="w-full border-b border-zinc-300">
             <p className="text-zinc-500 mt-2 pb-2">
@@ -223,7 +219,9 @@ export default function ListPresent() {
             ))}
           </div>
         ) : (
-          <p>Carregando...</p>
+          <div className="w-full flex items-center justify-center py-10">
+            <Loader />
+          </div>
         )}
       </div>
     </main>
