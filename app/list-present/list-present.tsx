@@ -58,14 +58,12 @@ export default function ListPresent() {
   const handleSelect = async (productId: string) => {
     setLoading(true)
     if (!user) {
-      // Se não estiver logado, faz login
       await signInWithGoogle()
       return
     }
 
-    // Usuário logado: seleciona o presente
-    await selectProduct(productId)
     redirect('/presents')
+    await selectProduct(productId)
   }
 
   function updateQuery(params: Record<string, string | null>) {
