@@ -3,10 +3,11 @@ import Flowers from './assets/Flowers.png'
 import Background from './assets/Grazi e Gustavo.png'
 import { Gift, MapPin } from 'lucide-react'
 import Monograma from './assets/Monograma.png'
+import { Button } from '@/components/ui/button'
 
 export default function HomePage() {
   return (
-    <main className="relative w-full min-h-screen px-6 lg:px-20 overflow-hidden">
+    <main className="relative w-full min-h-screen px-6 lg:px-20 overflow-hidden font-playfair">
       {/* Flor esquerda */}
       <div className="absolute left-0 top-0 opacity-20 z-0 pointer-events-none">
         <Image
@@ -62,19 +63,25 @@ export default function HomePage() {
         </div>
 
         <div className="flex items-center justify-center gap-20 pt-4">
-          <div className="flex flex-col items-center gap-2">
+          <Button
+            variant="ghost"
+            className="flex flex-col items-center gap-2 p-0 hover:bg-transparent"
+          >
             <div className="p-2 bg-serenity-dark rounded-full">
               <Gift className="w-10 h-10 text-white stroke-1" />
             </div>
             <p>Lista de Presentes</p>
-          </div>
+          </Button>
 
-          <div className="flex flex-col items-center gap-2">
+          <Button
+            variant="ghost"
+            className="flex flex-col items-center gap-2 p-0 hover:bg-transparent"
+          >
             <div className="p-2 bg-serenity-dark rounded-full">
               <MapPin className="w-10 h-10 text-white stroke-1" />
             </div>
             <p>Localização</p>
-          </div>
+          </Button>
         </div>
 
         <Image
@@ -82,7 +89,7 @@ export default function HomePage() {
           width={80}
           height={80}
           alt="monograma"
-          className="rounded-full py-4"
+          className="rounded-full mt-10"
         />
       </div>
     </main>
