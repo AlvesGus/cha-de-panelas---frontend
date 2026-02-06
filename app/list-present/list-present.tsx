@@ -62,8 +62,11 @@ export default function ListPresent() {
       return
     }
 
+    // Usuário logado: seleciona o presente
     redirect('/presents')
     await selectProduct(productId)
+
+    setLoading(false)
   }
 
   function updateQuery(params: Record<string, string | null>) {
