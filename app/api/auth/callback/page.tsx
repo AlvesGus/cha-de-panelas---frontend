@@ -1,8 +1,23 @@
-import { createSupabaseServerClient } from '@/app/lib/supabase/server'
-import { redirect } from 'next/navigation'
+// app/auth/callback/page.tsx
+'use client'
 
-export default async function AuthCallback() {
-  const supabase = await createSupabaseServerClient()
-  await supabase.auth.getUser()
-  redirect('https://cha-de-panelas-frontend.vercel.app/list-present')
+import { useEffect } from 'react'
+import { createClient } from '@supabase/supabase-js'
+import { useRouter } from 'next/navigation'
+
+export default function AuthCallback() {
+  const router = useRouter()
+
+  useEffect(() => {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    )
+
+    supabase.auth.getSession().then(() => {
+      router.replace('/list-present')
+    })
+  }, [router])
+
+  return <p>Autenticando...</p>
 }
