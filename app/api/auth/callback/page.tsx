@@ -1,23 +1,28 @@
-// app/auth/callback/page.tsx
 'use client'
 
 import { useEffect } from 'react'
-import { createClient } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
+import { supabase } from '@/app/lib/supabase/client'
 
 export default function AuthCallback() {
   const router = useRouter()
 
   useEffect(() => {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
+    async function handleAuth() {
+      const { data, error } = await supabase.auth.getSession()
 
-    supabase.auth.getSession().then(() => {
-      router.replace('/list-present')
-    })
+      if (error) {
+        console.error(error)
+        return
+      }
+
+      if (data.session) {
+        router.replace('/list-present')
+      }
+    }
+
+    handleAuth()
   }, [router])
 
-  return <p>Autenticando...</p>
+  return <p>Finalizando login...</p>
 }
