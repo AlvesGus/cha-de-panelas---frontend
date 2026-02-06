@@ -8,20 +8,15 @@ export default function AuthCallback() {
   const router = useRouter()
 
   useEffect(() => {
-    async function handleAuth() {
-      const { data, error } = await supabase.auth.getSession()
-
-      if (error) {
-        console.error(error)
-        return
-      }
+    const finalize = async () => {
+      const { data } = await supabase.auth.getSession()
 
       if (data.session) {
         router.replace('/list-present')
       }
     }
 
-    handleAuth()
+    finalize()
   }, [router])
 
   return <p>Finalizando login...</p>
