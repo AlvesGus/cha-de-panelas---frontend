@@ -64,7 +64,7 @@ export default function ListPresent() {
     setLoading(true)
 
     if (!user) {
-      await signInWithGoogle()
+      signInWithGoogle()
     }
 
     try {
