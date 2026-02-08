@@ -97,7 +97,11 @@ export default function MyPresent() {
                 className="w-full bg-serenity-dark hover:bg-serenity-dark/90 text-black font-semibold"
                 asChild
               >
-                <a href={product.link_shopee} target="_blank">
+                <a
+                  href={product.link_shopee}
+                  target="_blank"
+                  className="w-full text-white font-semibold"
+                >
                   <ShoppingBag className="size-5" />
                   Comprar
                 </a>

@@ -98,11 +98,10 @@ export function ProductsProvider({ children }: { children: React.ReactNode }) {
 
       await fetchProducts()
     } catch (error) {
-      toast.error('Erro ao remover presente')
       console.error(error)
     } finally {
-      redirect('/list-present')
       toast.success('Produto removido com sucesso')
+      redirect('/list-present')
     }
   }
 
