@@ -12,18 +12,18 @@ import { api } from '../api/axios/api'
 import Background from '../assets/Grazi e Gustavo.png'
 import Pix from '../assets/pix.jpeg'
 import Loader from '@/components/ui/loader'
-import { useAuth } from '../context/auth-context'
 import { toast } from 'sonner'
 import { Copy } from 'lucide-react'
+import { useAuth } from '../context/auth-context'
 
 export default function ListPresent() {
   const { products, selectProduct, setProducts } = useProducts()
   const [loading, setLoading] = useState(false)
-  const { user } = useAuth()
   const router = useRouter()
   const searchParams = useSearchParams()
   const maxPrice = searchParams.get('max_price')
   const category = searchParams.get('category')
+  const { user, signInWithGoogle } = useAuth()
 
   const PIX_KEY = '(12)991339320'
 
@@ -38,6 +38,9 @@ export default function ListPresent() {
   ]
 
   useEffect(() => {
+    if (!user) {
+      signInWithGoogle()
+    }
     async function fetchProducts() {
       try {
         setLoading(true)
@@ -58,14 +61,10 @@ export default function ListPresent() {
     }
 
     fetchProducts()
-  }, [category, maxPrice, setProducts])
+  }, [category, maxPrice, setProducts, user, signInWithGoogle])
 
   async function handleSelect(productId: string) {
     setLoading(true)
-
-    if (!user) {
-      signInWithGoogle()
-    }
 
     try {
       await selectProduct(productId)
@@ -263,7 +262,4 @@ export default function ListPresent() {
       </div>
     </main>
   )
-}
-function signInWithGoogle() {
-  throw new Error('Function not implemented.')
 }
