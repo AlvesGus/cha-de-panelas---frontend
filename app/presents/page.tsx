@@ -15,19 +15,13 @@ import { Product, useProducts } from '../context/products'
 
 export default function MyPresent() {
   const router = useRouter()
-  const { session, signInWithGoogle } = useAuth()
+  const { session } = useAuth()
   const { removePresent } = useProducts()
 
   const [presents, setPresents] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!session?.access_token) {
-      setLoading(false)
-      signInWithGoogle()
-      return
-    }
-
     async function loadPresents() {
       try {
         const res = await api.get('/api/my-presents', {
@@ -45,7 +39,7 @@ export default function MyPresent() {
     }
 
     loadPresents()
-  }, [session?.access_token, router, signInWithGoogle])
+  }, [session?.access_token, router])
 
   if (loading) {
     return (
@@ -104,7 +98,7 @@ export default function MyPresent() {
                 rel="noopener noreferrer"
                 className="w-full"
               >
-                <Button className="w-full bg-serenity-dark text-black font-semibold">
+                <Button className="w-full bg-serenity-dark text-white font-semibold">
                   <ShoppingBag className="size-5" />
                   Comprar
                 </Button>
