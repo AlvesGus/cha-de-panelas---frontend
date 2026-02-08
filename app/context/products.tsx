@@ -47,11 +47,17 @@ export function ProductsProvider({ children }: { children: React.ReactNode }) {
 
   async function selectProduct(productId: string) {
     const {
+      data: { user }
+    } = await supabase.auth.getUser()
+
+    const {
       data: { session }
     } = await supabase.auth.getSession()
 
-    // 🔒 1. Bloqueia ANTES de qualquer loading
-    if (!session?.access_token) {
+    const accessToken = session?.access_token
+
+    // 🔒 BLOQUEIO TOTAL
+    if (!user || !accessToken) {
       toast.info('Faça login para selecionar um presente')
       router.push('/login')
       return
@@ -62,17 +68,17 @@ export function ProductsProvider({ children }: { children: React.ReactNode }) {
 
       const res = await api.patch(`/api/products/${productId}/select`, null, {
         headers: {
-          Authorization: `Bearer ${session.access_token}`
+          Authorization: `Bearer ${accessToken}`
         }
       })
 
       setProducts(res.data)
       await fetchProducts()
 
-      toast.success('Produto selecionado com sucesso 🎁')
+      toast.success('Produto selecionado com sucesso...')
     } catch (error) {
-      console.error(error)
-      toast.error('Não foi possível selecionar o presente')
+      toast.error('Não foi possível selecionar o presente...')
+      console.log(error)
     } finally {
       setLoading(false)
     }
