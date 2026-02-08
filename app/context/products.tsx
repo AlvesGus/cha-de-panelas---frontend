@@ -5,6 +5,7 @@ import { api } from '@/app/api/axios/api'
 import { supabase } from '../lib/supabase/client' // ✅ instância única
 import { redirect } from 'next/navigation'
 import { toast } from 'sonner'
+import router from 'next/router'
 
 export type Product = {
   id: string
@@ -45,35 +46,34 @@ export function ProductsProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function selectProduct(productId: string) {
+    const {
+      data: { session }
+    } = await supabase.auth.getSession()
+
+    // 🔒 1. Bloqueia ANTES de qualquer loading
+    if (!session?.access_token) {
+      toast.info('Faça login para selecionar um presente')
+      router.push('/login')
+      return
+    }
+
     try {
       setLoading(true)
 
-      const {
-        data: { user }
-      } = await supabase.auth.getUser()
-      const session = await supabase.auth.getSession()
-
-      const accessToken = session.data?.session?.access_token
-
-      if (!accessToken) {
-        console.log('Token ainda não disponível')
-        return
-      }
-
-      if (!user || !accessToken) throw new Error('Usuário não autenticado')
-
       const res = await api.patch(`/api/products/${productId}/select`, null, {
         headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${session.access_token}`
         }
       })
+
       setProducts(res.data)
       await fetchProducts()
+
+      toast.success('Produto selecionado com sucesso 🎁')
     } catch (error) {
-      toast.error('Não foi possível selecionar o presente...')
-      console.log(error)
+      console.error(error)
+      toast.error('Não foi possível selecionar o presente')
     } finally {
-      toast.success('Produto selecionado com sucesso...')
       setLoading(false)
     }
   }

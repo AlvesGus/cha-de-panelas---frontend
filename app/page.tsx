@@ -77,22 +77,17 @@ export default function HomePage() {
             <p>Lista de Presentes</p>
           </Button>
 
-          <Button
-            asChild
-            variant="ghost"
-            className="flex flex-col items-center gap-2 p-0 hover:bg-transparent"
+          <a
+            href="https://www.google.com/maps/place/R.+Antônio+José+Carneiro+de+Souza,+20+-+Res.+Paraiso,+Taubaté+-+SP,+12090-803"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-center gap-2 p-0 hover:opacity-80"
           >
-            <a
-              href="https://google.com/maps/place/R.+Antônio+José+Carneiro+de+Souza,+20+-+Res.+Paraiso,+Taubaté+-+SP,+12090-803"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="p-2 bg-serenity-dark rounded-full">
-                <MapPin className="w-10 h-10 text-white stroke-1" />
-              </div>
-              <p>Localização</p>
-            </a>
-          </Button>
+            <div className="p-2 bg-serenity-dark rounded-full">
+              <MapPin className="w-10 h-10 text-white stroke-1" />
+            </div>
+            <p>Localização</p>
+          </a>
         </div>
 
         <Image
