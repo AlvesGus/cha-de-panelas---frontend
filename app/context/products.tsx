@@ -51,7 +51,9 @@ export function ProductsProvider({ children }: { children: React.ReactNode }) {
         data: { user }
       } = await supabase.auth.getUser()
       const session = await supabase.auth.getSession()
+
       const accessToken = session.data?.session?.access_token
+
       if (!accessToken) {
         console.log('Token ainda não disponível')
         return
@@ -59,7 +61,6 @@ export function ProductsProvider({ children }: { children: React.ReactNode }) {
 
       if (!user || !accessToken) throw new Error('Usuário não autenticado')
 
-      // Envia token no header para o backend
       const res = await api.patch(`/api/products/${productId}/select`, null, {
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -76,8 +77,6 @@ export function ProductsProvider({ children }: { children: React.ReactNode }) {
 
   async function removePresent(productId: string) {
     try {
-      setLoading(true)
-
       const {
         data: { session }
       } = await supabase.auth.getSession()
@@ -98,7 +97,6 @@ export function ProductsProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       console.error('Erro ao remover presente', error)
     } finally {
-      setLoading(false)
       redirect('/list-present')
     }
   }

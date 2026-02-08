@@ -5,18 +5,18 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Product } from '../context/products'
-import { useAuth } from '../context/auth-context'
 import { useProducts } from '../context/products'
 import { useEffect, useState } from 'react'
-import { redirect, useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { api } from '../api/axios/api'
 import Background from '../assets/Grazi e Gustavo.png'
 import Loader from '@/components/ui/loader'
+import { useAuth } from '../context/auth-context'
 
 export default function ListPresent() {
   const { products, selectProduct, setProducts } = useProducts()
-  const { user, signInWithGoogle } = useAuth()
   const [loading, setLoading] = useState(false)
+  const { user } = useAuth()
   const router = useRouter()
   const searchParams = useSearchParams()
   const maxPrice = searchParams.get('max_price')
@@ -55,18 +55,19 @@ export default function ListPresent() {
     fetchProducts()
   }, [category, maxPrice, setProducts])
 
-  const handleSelect = async (productId: string) => {
+  async function handleSelect(productId: string) {
     setLoading(true)
+
     if (!user) {
       await signInWithGoogle()
-      return
     }
 
-    // Usuário logado: seleciona o presente
-    redirect('/presents')
-    await selectProduct(productId)
-
-    setLoading(false)
+    try {
+      await selectProduct(productId)
+      router.push('/presents')
+    } finally {
+      setLoading(false)
+    }
   }
 
   function updateQuery(params: Record<string, string | null>) {
@@ -176,10 +177,10 @@ export default function ListPresent() {
         </div>
 
         {!loading ? (
-          <div className="w-full mb-10 flex flex-col gap-5 md:grid md:grid-cols-2 lg:grid-cols-4 lg:gap-5 pt-4">
+          <div className="w-full mb-10 flex flex-col gap-3 sm:grid sm:grid-cols-2 md:grid md:grid-cols-3 lg:grid-cols-4 lg:gap-5 pt-4">
             {products.map((item: Product) => (
               <Card key={item.id} className="shadow-md">
-                <div className="relative h-96 w-full overflow-hidden">
+                <div className="relative h-72 w-full overflow-hidden">
                   <Image
                     src={item.image_url}
                     width={1000}
@@ -198,8 +199,8 @@ export default function ListPresent() {
                   </div>
                 </div>
                 <CardContent>
-                  <h3 className="font-bold text-xl h-16">{item.name}</h3>
-                  <div className="font-medium flex gap-2 text-serenity-base">
+                  <h3 className="font-medium text-xl h-16">{item.name}</h3>
+                  <div className="flex gap-2 text-serenity-base">
                     <span>Valor aprox.:</span>
                     <span>R$ {item.suggestion_price},00</span>
                   </div>
@@ -227,4 +228,7 @@ export default function ListPresent() {
       </div>
     </main>
   )
+}
+function signInWithGoogle() {
+  throw new Error('Function not implemented.')
 }
