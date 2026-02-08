@@ -11,6 +11,7 @@ import {
 import { MenuIcon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useAuth } from '../context/auth-context' // ✅ seu contexto de Supabase
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 interface DataProps {
   id: number
@@ -39,9 +40,17 @@ export default function Header() {
   const path = usePathname()
   const { user, signOut, signInWithGoogle } = useAuth()
 
+  const name =
+    user?.user_metadata?.name || user?.user_metadata?.full_name || 'Usuário'
+
+  const avatarUrl =
+    user?.user_metadata?.avatar_url ||
+    user?.user_metadata?.picture ||
+    user?.user_metadata?.image
+
   return (
     <main className="w-full border-b border-zinc-400 p-4 bg-zinc-100 shadow-b shadow-md lg:px-20">
-      <div className="flex items-center justify-between md:justify-center md:gap-2">
+      <div className="flex items-center justify-between lg:max-w-[80%] lg:mx-auto">
         <div>
           <Sheet>
             <SheetTrigger>
@@ -69,12 +78,21 @@ export default function Header() {
               </div>
 
               <SheetFooter>
-                <div className="text-sm">
-                  <span>
-                    {user?.user_metadata?.name ||
-                      user?.user_metadata?.full_name}
-                  </span>
-                </div>
+                {user ? (
+                  <div className="flex items-center gap-3">
+                    <Avatar>
+                      <AvatarImage src={avatarUrl} alt={name} />
+                      <AvatarFallback>
+                        {name.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+
+                    <span className="text-xl font-medium">{name}</span>
+                  </div>
+                ) : (
+                  ''
+                )}
+
                 <Button
                   variant="serenity"
                   onClick={() => {

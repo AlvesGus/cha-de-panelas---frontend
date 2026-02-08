@@ -1,13 +1,11 @@
 import type { Metadata } from 'next'
-import {
-  Parisienne,
-  Playfair_Display
-} from 'next/font/google'
+import { Parisienne, Playfair_Display } from 'next/font/google'
 import './globals.css'
 import Header from './_components/header'
 import { AuthProvider } from './context/auth-context'
 import { ProductsProvider } from './context/products'
 import Texture from './assets/background-texture.jpeg'
+import { Toaster } from '@/components/ui/sonner'
 
 const parisienne = Parisienne({
   weight: '400',
@@ -45,6 +43,7 @@ export default function RootLayout({
           <ProductsProvider>
             <Header />
             {children}
+            <Toaster position="top-right" />
           </ProductsProvider>
         </AuthProvider>
       </body>

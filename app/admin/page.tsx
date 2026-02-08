@@ -14,6 +14,7 @@ import { Plus, Trash } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useProducts } from '../context/products'
+import { toast } from 'sonner'
 
 export default function Admin() {
   const { products, fetchProducts } = useProducts()
@@ -28,7 +29,7 @@ export default function Admin() {
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async () => {
-    if (!image) return alert('Selecione uma imagem')
+    if (!image) return toast.error('Selecione uma imagem...')
 
     try {
       setLoading(true)
@@ -50,7 +51,7 @@ export default function Admin() {
 
       if (!response.ok) throw new Error()
 
-      alert('Produto cadastrado com sucesso! 🎉')
+      toast.success('Produto cadastrado com sucesso! 🎉')
 
       setName('')
       setSuggestionPrice('')
@@ -58,7 +59,8 @@ export default function Admin() {
       setImage(null)
       fetchProducts()
     } catch (error) {
-      alert('Erro ao cadastrar produto' + error)
+      toast.error('Erro ao cadastrar produto')
+      console.log(error)
     } finally {
       setLoading(false)
     }
@@ -76,7 +78,7 @@ export default function Admin() {
       setUser(true)
       localStorage.setItem('user', 'true')
     } else {
-      return alert('Tente novamente...')
+      return toast.error('Tente novamente...')
     }
   }
 
@@ -95,7 +97,7 @@ export default function Admin() {
 
       await fetchProducts() // 🔄 atualiza lista
     } catch (error) {
-      alert('Erro ao deletar produto')
+      toast.error('Erro ao deletar produto')
       console.error(error)
     }
   }
