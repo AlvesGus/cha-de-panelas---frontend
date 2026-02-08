@@ -35,7 +35,6 @@ export default function MyPresent() {
         console.error('Erro ao buscar presentes', error)
       } finally {
         setLoading(false)
-        
       }
     }
 
@@ -95,12 +94,12 @@ export default function MyPresent() {
 
             <CardFooter className="flex flex-col gap-4">
               <Button
-                className="w-full bg-shopee hover:bg-shopee/90 text-black font-semibold"
+                className="w-full bg-serenity-dark hover:bg-serenity-dark/90 text-black font-semibold"
                 asChild
               >
                 <a href={product.link_shopee} target="_blank">
                   <ShoppingBag className="size-5" />
-                  Comprar Shopee
+                  Comprar
                 </a>
               </Button>
 

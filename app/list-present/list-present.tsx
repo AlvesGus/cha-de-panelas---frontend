@@ -10,8 +10,11 @@ import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { api } from '../api/axios/api'
 import Background from '../assets/Grazi e Gustavo.png'
+import Pix from '../assets/pix.jpeg'
 import Loader from '@/components/ui/loader'
 import { useAuth } from '../context/auth-context'
+import { toast } from 'sonner'
+import { Copy } from 'lucide-react'
 
 export default function ListPresent() {
   const { products, selectProduct, setProducts } = useProducts()
@@ -21,6 +24,8 @@ export default function ListPresent() {
   const searchParams = useSearchParams()
   const maxPrice = searchParams.get('max_price')
   const category = searchParams.get('category')
+
+  const PIX_KEY = '(12)991339320'
 
   const categories = [
     'Cozinha',
@@ -83,6 +88,15 @@ export default function ListPresent() {
     })
 
     router.push(`/list-present?${query.toString()}`)
+  }
+
+  async function handleCopyPix() {
+    try {
+      await navigator.clipboard.writeText(PIX_KEY)
+      toast.success('Chave Pix copiada 💙')
+    } catch {
+      toast.error('Não foi possível copiar a chave')
+    }
   }
 
   return (
@@ -179,6 +193,26 @@ export default function ListPresent() {
 
         {!loading ? (
           <div className="w-full mb-10 flex flex-col gap-3 sm:grid sm:grid-cols-2 md:grid md:grid-cols-3 lg:grid-cols-4 lg:gap-5 pt-4">
+            <Card className="shadow-md flex flex-col items-center justify-between">
+              <div className="h-72 w-full flex items-center justify-center overflow-hidden pt-4">
+                <Image src={Pix} width={300} height={300} alt="pix qr" />
+              </div>
+              <CardContent>
+                <div className="flex gap-2 text-serenity-base">
+                  <span>Caso prefira nos presentar com pix</span>
+                </div>
+              </CardContent>
+              <CardFooter className="flex flex-col items-center justify-center w-full gap-4 ">
+                <Button
+                  variant="serenity"
+                  onClick={() => handleCopyPix()}
+                  className="w-full"
+                >
+                  Copiar pix
+                  <Copy />
+                </Button>
+              </CardFooter>
+            </Card>
             {products.map((item: Product) => (
               <Card key={item.id} className="shadow-md">
                 <div className="relative h-72 w-full overflow-hidden">
