@@ -35,6 +35,7 @@ export default function MyPresent() {
         console.error('Erro ao buscar presentes', error)
       } finally {
         setLoading(false)
+        
       }
     }
 

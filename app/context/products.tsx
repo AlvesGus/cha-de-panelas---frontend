@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { api } from '@/app/api/axios/api'
 import { supabase } from '../lib/supabase/client' // ✅ instância única
 import { redirect } from 'next/navigation'
+import { toast } from 'sonner'
 
 export type Product = {
   id: string
@@ -69,8 +70,10 @@ export function ProductsProvider({ children }: { children: React.ReactNode }) {
       setProducts(res.data)
       await fetchProducts()
     } catch (error) {
-      console.error('Erro ao selecionar presente', error)
+      toast.error('Não foi possível selecionar o presente...')
+      console.log(error)
     } finally {
+      toast.success('Produto selecionado com sucesso...')
       setLoading(false)
     }
   }
@@ -95,9 +98,11 @@ export function ProductsProvider({ children }: { children: React.ReactNode }) {
 
       await fetchProducts()
     } catch (error) {
-      console.error('Erro ao remover presente', error)
+      toast.error('Erro ao remover presente')
+      console.error(error)
     } finally {
       redirect('/list-present')
+      toast.success('Produto removido com sucesso')
     }
   }
 

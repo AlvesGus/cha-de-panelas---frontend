@@ -64,6 +64,7 @@ export default function ListPresent() {
 
     try {
       await selectProduct(productId)
+
       router.push('/presents')
     } finally {
       setLoading(false)
