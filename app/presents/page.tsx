@@ -22,10 +22,9 @@ export default function MyPresent() {
   const [loading, setLoading] = useState(true)
   const [isDisabled, setIsDisabled] = useState(false)
 
-  const handleRemovePresent(productId) {
-  removePresent(productId)
+  const handleRemovePresent = (productId: string) => {
+    removePresent(productId)
   }
-
   useEffect(() => {
     async function loadPresents() {
       try {
