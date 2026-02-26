@@ -5,7 +5,6 @@ import Flowers from './assets/Flowers.png'
 import Background from './assets/Grazi e Gustavo.png'
 import { Gift, MapPin } from 'lucide-react'
 import Monograma from './assets/Monograma.png'
-import { Button } from '@/components/ui/button'
 import { redirect } from 'next/navigation'
 
 export default function HomePage() {
@@ -65,23 +64,22 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="flex items-center justify-center gap-20 pt-4">
-          <Button
+        <div className=" flex items-center justify-center gap-20 pt-4">
+          <a
             onClick={() => redirect('/list-present')}
-            variant="ghost"
-            className="flex flex-col items-center gap-2 p-0 hover:bg-transparent"
+            className="flex flex-col items-center gap-2 p-0 hover:opacity-80 transition-colors duration-300 cursor-pointer"
           >
             <div className="p-2 bg-serenity-dark rounded-full">
               <Gift className="w-10 h-10 text-white stroke-1" />
             </div>
             <p>Lista de Presentes</p>
-          </Button>
+          </a>
 
           <a
-            href="https://www.google.com/maps/place/R.+Antônio+José+Carneiro+de+Souza,+20+-+Res.+Paraiso,+Taubaté+-+SP,+12090-803"
+            href="https://www.google.com/maps/place/Rancho+Oasis+Taubate/@-23.0400443,-45.6127707,20.25z/data=!4m9!1m2!2m1!1sjardim+oasis!3m5!1s0x94cc5632d05afa47:0x8c005f6c7ade1b3f!8m2!3d-23.0398679!4d-45.6122946!16s%2Fg%2F11c1xhqf24?entry=ttu&g_ep=EgoyMDI2MDIyMy4wIKXMDSoASAFQAw%3D%3D"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-col items-center gap-2 p-0 hover:opacity-80"
+            className="flex flex-col items-center gap-2 p-0 hover:opacity-80 transition-colors duration-300"
           >
             <div className="p-2 bg-serenity-dark rounded-full">
               <MapPin className="w-10 h-10 text-white stroke-1" />

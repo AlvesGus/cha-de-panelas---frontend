@@ -20,6 +20,11 @@ export default function MyPresent() {
 
   const [presents, setPresents] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+  const [isDisabled, setIsDisabled] = useState(false)
+
+  const handleRemovePresent(productId) {
+  removePresent(productId)
+  }
 
   useEffect(() => {
     async function loadPresents() {
@@ -107,7 +112,8 @@ export default function MyPresent() {
               <Button
                 variant="serenity"
                 className="w-full text-white font-semibold"
-                onClick={() => removePresent(product.id)}
+                onClick={() => handleRemovePresent(product.id)}
+                disabled={isDisabled}
               >
                 <Trash className="size-5" />
                 Remover presente
